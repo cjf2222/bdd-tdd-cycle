@@ -24,6 +24,9 @@ module NavigationHelpers
       
       when /the Similar Movies page for "(.*)"$/
         movie_similar_path(Movie.find_by_title($1)[:id])
+        
+      when /^the RottenPotatoes home page$/
+        movies_path
 
     else
       begin
