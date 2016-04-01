@@ -7,18 +7,16 @@ class MoviesController < ApplicationController
   end
 
   def similar
-    id = params[:id]
-    @movie = Movie.find(id)
-    
-    if @movie
-      if@movie.director == nil or @movie.director == ""
-        session[:noDirector] = @movie.title
-        redirect_to movies_path and return
-      else
-        @SameDirectorMovies = Movie.find_all_by_director(@movie.director)
-      end
+    @movie = Movie.find(params[:id])
+    director = @movie.director
+    if director.blank?
+      flash[:notice] = "'#{@movie.title}' has no director info"
+      redirect_to movies_path
+    else
+      @movies = Movie.similar_directors(@movie.director)
     end
   end
+
   
   def index
     sort = params[:sort] || session[:sort]
