@@ -21,8 +21,8 @@
 - if @sameDirectorMovies
   %ul
   - @sameDirectorMovies.each do |movie|
-  %li
-    %td= link_to "#{moive.title}", movie_path(movie)
+    %li
+      %td= link_to "#{moive.title}", movie_path(movie)
 
 = link_to 'Edit', edit_movie_path(@movie)
 = button_to 'Delete', movie_path(@movie), :method => :delete, :confirm => 'Are you sure?'
