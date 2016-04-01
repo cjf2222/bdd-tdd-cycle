@@ -34,5 +34,33 @@ describe 'happy path' do
         assigns(:movies).should == @m
       end
     end
+    
+describe 'sad path' do
+  before :each do
+    m=double(Movie, :title => "Star Wars", :director => "director", :id => "1")
+    Movie.stub(:find).with("1").and_return(m)
+  end
+  
+  it 'should generate routing for similar Movies' do
+    {:post => movie_similar_path(1) }.should route_to(:controller => "movies", :action => "similar", :id => "1")
+  end
+  it 'should select the index template for rendering and generate a flash' do
+    get :similar, :id => "1"
+    response.should 
+    flash[:notice].should be_blank
+  end
+end
 
+describe 'create and destroy' do
+  it 'should create a new movie' do
+    MoviesController.stub(:create).and_return(double('Movie'))
+    post :create, {:id => "1"}
+  end
+  it 'should destroy a movie' do
+    m = double(Movie, :id => "10", :title => "yep", :director => nil)
+    Movie.stub(:find).with("10").and_return(m)
+    m.should_receive(:destroy)
+    delete :destroy, {:id => "10"}
+  end
+end
 end
